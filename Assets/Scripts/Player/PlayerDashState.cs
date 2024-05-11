@@ -17,7 +17,6 @@ namespace Player {
         public override void Process() {
             base.Process();
             Player.SetVelocity(PlayerConstants.DashSpeed * Player.dashDir, 0);
-            // ReSharper disable once InvertIf
             if (StateTimer < 0) {
                 if (!Player.IsOnFloor()) {
                     StateMachine.ChangeState(AirPlayerState);

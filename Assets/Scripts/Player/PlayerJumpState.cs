@@ -17,6 +17,7 @@ namespace Player {
             base.Process();
             if (PlayerVelocity.y > 0)
                 StateMachine.ChangeState(AirPlayerState);
+            
         }
     }
 }

@@ -9,7 +9,11 @@ namespace Player {
             CurrentState = newState;
             CurrentState.Enter();
         }
-
+        
+        /// <summary>
+        /// Changes the current state
+        /// </summary>
+        /// <param name="newState"></param>
         public void ChangeState(PlayerState newState) {
             CurrentState.Exit();
             CurrentState = newState;
