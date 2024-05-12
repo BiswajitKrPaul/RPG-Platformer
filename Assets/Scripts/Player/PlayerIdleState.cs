@@ -1,20 +1,27 @@
-﻿namespace Player {
-    public class PlayerIdleState : PlayerGroundState {
-        public override void Enter() {
+﻿namespace Player
+{
+    public class PlayerIdleState : PlayerGroundState
+    {
+        public override void Enter()
+        {
             base.Enter();
             Player.SetZeroVelocity();
         }
 
-        public override void Exit() {
+        public override void Exit()
+        {
             base.Exit();
         }
 
-        public override void PhysicsProcess() {
+        public override void PhysicsProcess()
+        {
             base.PhysicsProcess();
-            if (XInput != 0) StateMachine.ChangeState(MovePlayerState);
+            if (XInput != 0)
+                StateMachine.ChangeState(MovePlayerState);
         }
 
-        public override void Process() {
+        public override void Process()
+        {
             base.Process();
         }
     }

@@ -1,20 +1,24 @@
 using UnityEngine;
 
-namespace Player {
-    public class PlayerStateMachine : MonoBehaviour {
+namespace Player
+{
+    public class PlayerStateMachine : MonoBehaviour
+    {
         public PlayerState CurrentState { get; private set; }
 
-
-        public void Initialize(PlayerState newState) {
+        /// <summary>
+        /// Initializes the player state machine with the provided state.
+        /// </summary>
+        /// <param name="newState">The initial state of the player.</param>
+        public void Initialize(PlayerState newState)
+        {
             CurrentState = newState;
             CurrentState.Enter();
         }
-        
-        /// <summary>
-        /// Changes the current state
-        /// </summary>
-        /// <param name="newState"></param>
-        public void ChangeState(PlayerState newState) {
+
+        // Changes the current state of the player to the new state provided.
+        public void ChangeState(PlayerState newState)
+        {
             CurrentState.Exit();
             CurrentState = newState;
             CurrentState.Enter();

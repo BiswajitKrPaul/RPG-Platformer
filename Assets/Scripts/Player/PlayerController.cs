@@ -1,39 +1,63 @@
 using Constants;
 using UnityEngine;
 
-// ReSharper disable InvertIf
-
 namespace Player
 {
     public class PlayerController : MonoBehaviour
     {
-        [Header("State Info")] [SerializeField]
-        private PlayerStateMachine stateMachine;
+        #region State Info
 
+        [Header("State Info")]
+        public PlayerStateMachine stateMachine;
         public PlayerIdleState idleState;
         public PlayerMoveState moveState;
         public PlayerJumpState jumpState;
         public PlayerAirState airState;
         public PlayerDashState dashState;
 
-        [Header("Collision Info")] [SerializeField]
+        #endregion
+
+        #region Collision Info
+
+        [Header("Collision Info")]
+        [SerializeField]
         private Transform groundRayCast;
 
-        [SerializeField] private float rcDistance;
-        [SerializeField] private float wRcDistance;
-        [SerializeField] private LayerMask whatIsGround;
-        [SerializeField] private Transform wallRayCast;
+        [SerializeField]
+        private float rcDistance;
 
-        [Header("Component Info")] public Animator animator;
+        [SerializeField]
+        private float wRcDistance;
+
+        [SerializeField]
+        private LayerMask whatIsGround;
+
+        [SerializeField]
+        private Transform wallRayCast;
+
+        #endregion
+
+        #region Component Info
+
+        [Header("Component Info")]
+        public Animator animator;
+
         public Rigidbody2D playerRb;
 
-        [Header("Move Info")] public float facingDirection = 1;
+        #endregion
+
+        #region Move Info
+
+        [Header("Move Info")]
+        public float facingDirection = 1;
+
         public bool isFacingRight = true;
         public float dashDir;
         private float _dashTimerCooldown;
 
-        public float XInput { get; private set; }
+        #endregion
 
+        public float XInput { get; private set; }
 
         private void Awake()
         {
@@ -65,18 +89,34 @@ namespace Player
 
         private void OnDrawGizmos()
         {
-            Gizmos.DrawLine(groundRayCast.position,
-                new Vector2(groundRayCast.position.x, groundRayCast.position.y - rcDistance));
-            Gizmos.DrawLine(wallRayCast.position,
-                new Vector2(wallRayCast.position.x + wRcDistance * facingDirection, wallRayCast.position.y));
+            Gizmos.DrawLine(
+                groundRayCast.position,
+                new Vector2(groundRayCast.position.x, groundRayCast.position.y - rcDistance)
+            );
+            Gizmos.DrawLine(
+                wallRayCast.position,
+                new Vector2(
+                    wallRayCast.position.x + wRcDistance * facingDirection,
+                    wallRayCast.position.y
+                )
+            );
         }
 
+        /// <summary>
+        /// Checks for dash input and changes the player's state to the dash state if the input is valid.
+        /// </summary>
+        /// <remarks>
+        /// This method is called to check if the left shift key is pressed and if the dash cooldown is less than 0.
+        /// If both conditions are true, it sets the dash direction based on the horizontal input or the facing direction if the input is 0.
+        /// It then changes the player's state to the dash state and sets the dash cooldown to 2.
+        /// </remarks>
         private void CheckDashInput()
         {
             if (Input.GetKeyDown(KeyCode.LeftShift) && _dashTimerCooldown < 0)
             {
                 dashDir = Input.GetAxisRaw("Horizontal");
-                if (dashDir == 0) dashDir = facingDirection;
+                if (dashDir == 0)
+                    dashDir = facingDirection;
                 stateMachine.ChangeState(dashState);
                 _dashTimerCooldown = 2f;
             }
@@ -85,8 +125,8 @@ namespace Player
         /// <summary>
         /// Sets the player's velocity.
         /// </summary>
-        /// <param name="x">Velocity on the x axis.</param>
-        /// <param name="y">Velocity on the y axis.</param>
+        /// <param name="x">Velocity on the x-axis.</param>
+        /// <param name="y">Velocity on the y-axis.</param>
         public void SetVelocity(float x, float y)
         {
             playerRb.velocity = new Vector2(x, y);
@@ -107,7 +147,12 @@ namespace Player
         /// <returns>True if the player is on the floor, false otherwise.</returns>
         public bool IsOnFloor()
         {
-            return Physics2D.Raycast(groundRayCast.position, Vector2.down, rcDistance, whatIsGround);
+            return Physics2D.Raycast(
+                groundRayCast.position,
+                Vector2.down,
+                rcDistance,
+                whatIsGround
+            );
         }
 
         /// <summary>
@@ -116,10 +161,13 @@ namespace Player
         /// <returns>True if a wall is detected, false otherwise.</returns>
         public bool IsWallDetected()
         {
-            return Physics2D.Raycast(wallRayCast.position, Vector2.right * facingDirection,
-                wRcDistance, whatIsGround);
+            return Physics2D.Raycast(
+                wallRayCast.position,
+                Vector2.right * facingDirection,
+                wRcDistance,
+                whatIsGround
+            );
         }
-
 
         /// <summary>
         /// Flips the player's orientation.
