@@ -6,5 +6,6 @@
         public const float JumpForce = 12;
         public const float DashSpeed = 25;
         public const float DashTimer = 0.2f;
+        public const float WallSlideSpeed = 0.2f;
     }
 }

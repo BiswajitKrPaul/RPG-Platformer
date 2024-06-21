@@ -57,6 +57,6 @@
     "Temp/": true
   },
   "dotnet.defaultSolution": "RPG-Platformer.sln",
-  "workbench.colorTheme": "Rider Dark",
+  "workbench.colorTheme": "eppz!",
   "dotnet.preferCSharpExtension": true
 }

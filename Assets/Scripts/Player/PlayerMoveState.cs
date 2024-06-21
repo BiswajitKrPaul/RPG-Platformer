@@ -20,7 +20,7 @@ namespace Player
         public override void Process()
         {
             base.Process();
-            Player.SetVelocity(PlayerConstants.MoveSpeed * XInput, PlayerVelocity.y);
+            Player.SetVelocity(PlayerConstants.MoveSpeed * XInput, Velocity.y);
             if (XInput == 0 || Player.IsWallDetected())
                 StateMachine.ChangeState(IdlePlayerState);
         }

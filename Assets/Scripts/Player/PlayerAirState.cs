@@ -20,8 +20,13 @@
         public override void Process()
         {
             base.Process();
-            if (Player.IsOnFloor() && PlayerVelocity.y == 0)
+            if (Player.IsOnFloor() && Velocity.y == 0)
                 StateMachine.ChangeState(IdlePlayerState);
+
+            if (!Player.IsOnFloor() && Player.IsWallDetected())
+            {
+                StateMachine.ChangeState(WallSlidePlayerState);
+            }
         }
     }
 }

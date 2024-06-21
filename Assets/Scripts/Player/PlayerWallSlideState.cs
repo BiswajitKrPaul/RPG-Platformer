@@ -1,11 +1,12 @@
+using UnityEngine;
+
 namespace Player
 {
-    public class PlayerJumpState : PlayerState
+    public class PlayerWallSlideState : PlayerState
     {
         public override void Enter()
         {
             base.Enter();
-            Player.SetVelocity(Velocity.x, PlayerConstants.JumpForce);
         }
 
         public override void Exit()
@@ -16,13 +17,15 @@ namespace Player
         public override void PhysicsProcess()
         {
             base.PhysicsProcess();
+            Player.SetVelocity(Velocity.x, PlayerConstants.WallSlideSpeed);
+
+            if (Player.IsOnFloor())
+                StateMachine.ChangeState(IdlePlayerState);
         }
 
         public override void Process()
         {
             base.Process();
-            if (Velocity.y > 0)
-                StateMachine.ChangeState(AirPlayerState);
         }
     }
 }

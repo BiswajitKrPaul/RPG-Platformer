@@ -211,6 +211,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15743b440cb09244cafa497020e37fb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &388196713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 388196714}
+  - component: {fileID: 388196715}
+  m_Layer: 0
+  m_Name: WallSlideState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &388196714
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388196713}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2064440112}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &388196715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388196713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62a0d41f2d0944fc19aecd88e3d18430, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +316,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -388,7 +432,7 @@ Transform:
   m_GameObject: {fileID: 839481996}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.25, y: -1.04, z: 0}
+  m_LocalPosition: {x: -0.07, y: -1.63, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -529,9 +573,10 @@ MonoBehaviour:
   jumpState: {fileID: 48694785}
   airState: {fileID: 1409972406}
   dashState: {fileID: 121583139}
+  wallSlideState: {fileID: 388196715}
   groundRayCast: {fileID: 1078117704}
   rcDistance: 0.4
-  wRcDistance: 0.4
+  wRcDistance: 0.19
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -1058,6 +1103,7 @@ Transform:
   - {fileID: 48694784}
   - {fileID: 1409972405}
   - {fileID: 121583138}
+  - {fileID: 388196714}
   m_Father: {fileID: 839481998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2064440113

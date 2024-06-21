@@ -7,5 +7,6 @@
         public const string Jump = "isJumping";
         public const string YVelocity = "yVelocity";
         public const string IsDashing = "isDashing";
+        public const string IsWallSliding = "isWallSliding";
     }
 }

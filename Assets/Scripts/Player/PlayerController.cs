@@ -14,6 +14,7 @@ namespace Player
         public PlayerJumpState jumpState;
         public PlayerAirState airState;
         public PlayerDashState dashState;
+        public PlayerWallSlideState wallSlideState;
 
         #endregion
 
@@ -66,6 +67,7 @@ namespace Player
             jumpState.SetUp(stateMachine, this, AnimationConstants.Jump);
             airState.SetUp(stateMachine, this, AnimationConstants.Jump);
             dashState.SetUp(stateMachine, this, AnimationConstants.IsDashing);
+            wallSlideState.SetUp(stateMachine, this, AnimationConstants.IsWallSliding);
         }
 
         private void Start()
@@ -112,7 +114,7 @@ namespace Player
         /// </remarks>
         private void CheckDashInput()
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift) && _dashTimerCooldown < 0)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && _dashTimerCooldown < 0 && !IsWallDetected())
             {
                 dashDir = Input.GetAxisRaw("Horizontal");
                 if (dashDir == 0)
