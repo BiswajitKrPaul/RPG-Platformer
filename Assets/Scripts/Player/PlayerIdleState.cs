@@ -16,7 +16,7 @@
         public override void PhysicsProcess()
         {
             base.PhysicsProcess();
-            if (XInput != 0)
+            if (XInput != 0 && Player.IsPlayerBusy == false)
                 StateMachine.ChangeState(MovePlayerState);
         }
 

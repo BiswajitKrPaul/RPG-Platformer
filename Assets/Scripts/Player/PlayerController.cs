@@ -1,3 +1,4 @@
+using System.Collections;
 using Constants;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace Player
         public PlayerAirState airState;
         public PlayerDashState dashState;
         public PlayerWallSlideState wallSlideState;
+        public PlayerAttackState attackState;
 
         #endregion
 
@@ -55,19 +57,22 @@ namespace Player
         public bool isFacingRight = true;
         public float dashDir;
         private float _dashTimerCooldown;
+        public bool IsPlayerBusy { get; private set; }
 
         #endregion
+
 
         public float XInput { get; private set; }
 
         private void Awake()
         {
-            idleState.SetUp(stateMachine, this, AnimationConstants.Idle);
-            moveState.SetUp(stateMachine, this, AnimationConstants.Move);
-            jumpState.SetUp(stateMachine, this, AnimationConstants.Jump);
-            airState.SetUp(stateMachine, this, AnimationConstants.Jump);
-            dashState.SetUp(stateMachine, this, AnimationConstants.IsDashing);
-            wallSlideState.SetUp(stateMachine, this, AnimationConstants.IsWallSliding);
+            idleState.SetUp(stateMachine, this, PlayerAnimationConstants.Idle);
+            moveState.SetUp(stateMachine, this, PlayerAnimationConstants.Move);
+            jumpState.SetUp(stateMachine, this, PlayerAnimationConstants.Jump);
+            airState.SetUp(stateMachine, this, PlayerAnimationConstants.Jump);
+            dashState.SetUp(stateMachine, this, PlayerAnimationConstants.IsDashing);
+            wallSlideState.SetUp(stateMachine, this, PlayerAnimationConstants.IsWallSliding);
+            attackState.SetUp(stateMachine, this, PlayerAnimationConstants.IsAttacking);
         }
 
         private void Start()
@@ -79,7 +84,7 @@ namespace Player
         {
             stateMachine.CurrentState.Process();
             XInput = Input.GetAxisRaw("Horizontal");
-            animator.SetFloat(AnimationConstants.YVelocity, playerRb.velocity.y);
+            animator.SetFloat(PlayerAnimationConstants.YVelocity, playerRb.velocity.y);
             CheckDashInput();
             _dashTimerCooldown -= Time.deltaTime;
         }
@@ -87,6 +92,13 @@ namespace Player
         private void FixedUpdate()
         {
             stateMachine.CurrentState.PhysicsProcess();
+        }
+
+        public IEnumerator BusyFor(float timeInSeconds)
+        {
+            IsPlayerBusy = true;
+            yield return new WaitForSeconds(timeInSeconds);
+            IsPlayerBusy = false;
         }
 
         private void OnDrawGizmos()
@@ -117,7 +129,7 @@ namespace Player
             if (Input.GetKeyDown(KeyCode.LeftShift) && _dashTimerCooldown < 0 && !IsWallDetected())
             {
                 dashDir = Input.GetAxisRaw("Horizontal");
-                if (dashDir == 0)
+                if (dashDir == 0f)
                     dashDir = facingDirection;
                 stateMachine.ChangeState(dashState);
                 _dashTimerCooldown = 2f;
@@ -140,7 +152,7 @@ namespace Player
         /// </summary>
         public void SetZeroVelocity()
         {
-            playerRb.velocity = new Vector2(0, 0);
+            playerRb.velocity = new Vector2(0f, 0f);
         }
 
         /// <summary>
@@ -187,7 +199,7 @@ namespace Player
             isFacingRight = !isFacingRight;
 
             // Rotate the player's transform by 180 degrees around the y-axis
-            transform.Rotate(new Vector3(0, 180, 0));
+            transform.Rotate(new Vector3(0f, 180f, 0f));
         }
 
         // This function is responsible for controlling the flipping behavior of an object.
@@ -203,6 +215,14 @@ namespace Player
                     Flip();
                     break;
             }
+        }
+
+        /// <summary>
+        /// Calls the 'OnAnimationTriggerCalled' method of the current state in the state machine.
+        /// </summary>
+        private void OnAnimationTriggerCalled()
+        {
+            stateMachine.CurrentState.OnAnimationTriggerCalled();
         }
     }
 }

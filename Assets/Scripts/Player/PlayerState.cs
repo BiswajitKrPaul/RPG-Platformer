@@ -18,10 +18,13 @@ namespace Player
         protected PlayerAirState AirPlayerState => Player.airState;
         protected PlayerDashState DashPlayerState => Player.dashState;
         protected PlayerWallSlideState WallSlidePlayerState => Player.wallSlideState;
+        protected PlayerAttackState AttackPlayerState => Player.attackState;
 
-        private Animator Animator => Player.animator;
+        protected Animator AnimatorPlayer => Player.animator;
 
         protected Vector2 Velocity => Player.playerRb.velocity;
+
+        protected bool TriggerCalled;
 
         public void SetUp(
             PlayerStateMachine playerStateMachine,
@@ -36,12 +39,13 @@ namespace Player
 
         public virtual void Enter()
         {
-            Animator.SetBool(_animationName, true);
+            AnimatorPlayer.SetBool(_animationName, true);
+            TriggerCalled = false;
         }
 
         public virtual void Exit()
         {
-            Animator.SetBool(_animationName, false);
+            AnimatorPlayer.SetBool(_animationName, false);
         }
 
         public virtual void PhysicsProcess() { }
@@ -49,6 +53,11 @@ namespace Player
         public virtual void Process()
         {
             StateTimer -= Time.deltaTime;
+        }
+
+        public void OnAnimationTriggerCalled()
+        {
+            TriggerCalled = true;
         }
     }
 }

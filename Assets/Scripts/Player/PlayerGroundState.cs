@@ -23,6 +23,8 @@ namespace Player
         {
             if (Input.GetKeyDown(KeyCode.Space) && Player.IsOnFloor())
                 StateMachine.ChangeState(JumpPlayerState);
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+                StateMachine.ChangeState(AttackPlayerState);
         }
     }
 }
